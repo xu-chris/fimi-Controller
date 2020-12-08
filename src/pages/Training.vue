@@ -3,9 +3,6 @@
     <div class="text-h3">{{trainings[id].name}}</div>
     <q-chip color="grey-9" text-color="white" icon="alarm" :label="trainings[id].duration" />
     <p>Classic exercises to increase your health.</p>
-    <q-footer bordered class="bg-grey-10 q-pa-sm text-center">
-      <q-btn class="full-width" size="lg" color="primary" label="Start workout" :to="{name: 'In Training'}" />
-  </q-footer>
   </q-page>
 </template>
 
