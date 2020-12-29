@@ -1,10 +1,84 @@
 <template>
   <q-page class="q-pa-md">
-    <div class="text-h3">Your results for working out {{trainings[id].name}}</div>
-    <q-chip color="grey-9" text-color="white" icon="alarm" :label="trainings[id].duration" />
+    <q-list>
+      <q-item>
+        <div class="text-h4">Training results for {{trainings[id].name}} <q-chip color="grey-9" text-color="white" :label="trainings[id].duration" /></div>
+      </q-item>
+
+      <q-separator spaced />
+      <q-item-label header>Here's where you have improved</q-item-label>
+
+      <q-item>
+
+        <q-item-section avatar>
+          <q-icon name="arrow_upward" color="green" />
+        </q-item-section>
+        <q-item-section>
+          <q-item-label>Better alignment of head and body</q-item-label>
+          <q-item-label caption lines="2">Your head and body are more aligned.</q-item-label>
+        </q-item-section>
+
+      </q-item>
+
+      <q-separator spaced inset="item" />
+
+      <q-item>
+
+        <q-item-section avatar>
+          <q-icon name="arrow_upward" color="green" />
+        </q-item-section>
+
+        <q-item-section>
+          <q-item-label>Knees are not overstretched</q-item-label>
+          <q-item-label caption lines="2">Squatting just up to 90 degrees prevents bending the tendons too much. Good job!</q-item-label>
+        </q-item-section>
+
+      </q-item>
+
+      <q-separator spaced />
+      <q-item-label header>Things you should watch next time</q-item-label>
+
+      <q-item>
+
+        <q-item-section avatar>
+          <q-icon name="error_outline" color="yellow" />
+        </q-item-section>
+
+        <q-item-section>
+          <q-item-label>Keep your neck neutral</q-item-label>
+          <q-item-label caption lines="2">While training, don't look forward but move your head along your spline. This prevents injuries on your neck muscle.</q-item-label>
+        </q-item-section>
+
+      </q-item>
+
+      <q-separator spaced inset="item" />
+
+      <q-item>
+
+        <q-item-section avatar>
+          <q-icon name="error_outline" color="yellow" />
+        </q-item-section>
+
+        <q-item-section>
+          <q-item-label>Keep your upper and lower arms aligned</q-item-label>
+          <q-item-label caption lines="2">Keeping your arms straight assures the expected training outcome.</q-item-label>
+        </q-item-section>
+
+      </q-item>
+
+      <q-separator spaced inset="item" />
+    </q-list>
+
     <q-footer bordered class="bg-grey-10 q-pa-sm text-center">
-      <q-btn class="full-width" size="lg" color="primary" label="Back to trainings" to="/" />
-  </q-footer>
+      <div class="row q-gutter-sm">
+      <div class="col">
+        <q-btn class="full-width" color="primary" outline label="Schedule next" to="/" />
+      </div>
+      <div class="col">
+        <q-btn class="full-width" color="primary" label="Back to trainings" to="/" />
+      </div>
+    </div>
+    </q-footer>
   </q-page>
 </template>
 
@@ -13,8 +87,8 @@
 const trainings = [
   {
     id: 0,
-    name: 'Squat-arm-raise',
-    duration: '2 minutes'
+    name: 'Move your body',
+    duration: '6 minutes'
   },
   {
     id: 1,
