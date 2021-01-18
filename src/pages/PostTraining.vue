@@ -1,10 +1,10 @@
 <template>
   <q-page class="q-pa-md">
-    <q-list>
+    User Id: {{this.userId}}
+    <!-- <q-list>
       <q-item>
         <div class="text-h4">Training results for {{trainings[id].name}} <q-chip color="grey-9" text-color="white" :label="trainings[id].duration" /></div>
       </q-item>
-
       <q-separator spaced />
       <q-item-label header>Here's where you have improved</q-item-label>
 
@@ -67,7 +67,7 @@
       </q-item>
 
       <q-separator spaced inset="item" />
-    </q-list>
+    </q-list> -->
 
     <q-footer bordered class="bg-grey-10 q-pa-sm text-center">
       <div class="row q-gutter-sm">
@@ -79,35 +79,54 @@
       </div>
     </div>
     </q-footer>
+
+    <q-inner-loading :showing="loading">
+      <q-spinner-ios size="30px" color="white" />
+    </q-inner-loading>
   </q-page>
 </template>
 
 <script>
 
-const trainings = [
-  {
-    id: 0,
-    name: 'Move your body',
-    duration: '6 minutes'
-  },
-  {
-    id: 1,
-    name: 'HIIT',
-    duration: '60 minutes'
-  }
-]
-
 export default {
   name: 'PostTraining',
-  data () {
-    return {
-      id: 0,
-      trainings: trainings
+  computed: {
+    loading: {
+      get () {
+        return this.$store.state.data.loading
+      }
+    },
+    data: {
+      get () {
+        return this.$store.state.data.trainingResults
+      }
+    },
+    userId: {
+      get () {
+        return this.$store.state.data.userId
+      }
     }
+  },
+  watch: {
+    userId (newUserId) {
+      this.getTrainingResults()
+    }
+  },
+  beforeMount () {
+    this.$store.commit('data/setLoading', true)
+  },
+  mounted () {
+    this.getTrainingResults()
   },
   methods: {
     returnToStart: function () {
       this.$store.dispatch('data/backButtonClicked')
+    },
+    getTrainingResults: function () {
+      if (this.userId == null) {
+        return
+      }
+      this.$store.dispatch('data/getTrainingResults')
     }
   }
 }

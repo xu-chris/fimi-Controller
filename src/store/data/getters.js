@@ -7,8 +7,5 @@ export function getClientAppState (state) {
 }
 
 export function getUserId (state) {
-  if (state.userId == null) {
-    this.dispatch('data/getUserId')
-  }
   return state.userId
 }

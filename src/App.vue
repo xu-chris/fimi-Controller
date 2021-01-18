@@ -9,9 +9,12 @@ export default {
   name: 'App',
   created () {
     this.interval = setInterval(() => this.getCurrentAppState(), 1000)
+    this.checkOrCreateUserId()
   },
-  beforeMount () {
-
+  mounted () {
+    if (localStorage.userId) {
+      this.$store.commit('data/setUserId', localStorage.userId)
+    }
   },
   computed: {
     state: {
@@ -21,6 +24,19 @@ export default {
     },
     currentRouteName () {
       return this.$route.name
+    },
+    userId: {
+      get () {
+        return this.$store.state.data.userId
+      },
+      set (value) {
+        this.$store.commit('data/setUserId', value)
+      }
+    }
+  },
+  watch: {
+    userId (newUserId) {
+      localStorage.userId = this.userId
     }
   },
   methods: {
@@ -28,8 +44,10 @@ export default {
       this.$store.dispatch('data/getCurrentAppState')
       this.routeBasedOnState()
     },
-    getUserId: function () {
-      return this.$store.dispatch('data/getUserId')
+    checkOrCreateUserId: function () {
+      if (this.userId == null && localStorage.userId == null) {
+        this.$store.dispatch('data/getUserId')
+      }
     },
     routeBasedOnState: function () {
       var pageName = ''
