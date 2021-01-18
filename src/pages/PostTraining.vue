@@ -72,10 +72,10 @@
     <q-footer bordered class="bg-grey-10 q-pa-sm text-center">
       <div class="row q-gutter-sm">
       <div class="col">
-        <q-btn class="full-width" color="primary" outline label="Schedule next" to="/" />
+        <q-btn class="full-width" color="primary" outline label="Schedule next" disabled />
       </div>
       <div class="col">
-        <q-btn class="full-width" color="primary" label="Back to trainings" to="/" />
+        <q-btn class="full-width" color="primary" label="Back to trainings" @click="returnToStart()" />
       </div>
     </div>
     </q-footer>
@@ -98,15 +98,17 @@ const trainings = [
 ]
 
 export default {
-  name: 'PageIndex',
+  name: 'PostTraining',
   data () {
     return {
       id: 0,
       trainings: trainings
     }
   },
-  created () {
-    this.id = this.$route.params.id
+  methods: {
+    returnToStart: function () {
+      this.$store.dispatch('data/backButtonClicked')
+    }
   }
 }
 </script>

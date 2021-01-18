@@ -9,7 +9,7 @@
           <q-card class="trainings-card">
             <q-card-section>
               <div class="text-h6">{{n.name}}</div>
-              <div class="text-subtitle2">{{n.duration}}</div>
+              <div class="text-subtitle2">{{getDurationInMinutesAsLabel(n.durationInSeconds)}}</div>
             </q-card-section>
 
             <q-separator />
@@ -34,48 +34,30 @@ import axios from 'axios'
 Vue.prototype.$axios = axios
 
 export default {
-  name: 'PageIndex',
-  data () {
-    return {
-      trainings: [],
-      loading: true
+  name: 'Start',
+  computed: {
+    loading: {
+      get () {
+        return this.$store.state.data.loading
+      }
+    },
+    trainings: {
+      get () {
+        return this.$store.state.data.trainings
+      }
     }
   },
   beforeMount () {
-    this.getTrainings()
+    this.$store.dispatch('data/getTrainings')
   },
   methods: {
     openTraining: function (training) {
-      var message = 'SELECT_TRAINING\n' + training.id
-      this.$axios.post(location.protocol + '//' + location.hostname + ':1234', message)
-        .then((response) => {
-          this.trainings = response.data
-          this.loading = false
-        })
-        .catch(() => {
-          this.$q.notify({
-            color: 'negative',
-            position: 'top',
-            message: 'Loading failed',
-            icon: 'report_problem'
-          })
-        })
-      this.$router.push({ name: 'Training', params: { id: training.id } })
+      this.$store.dispatch('data/selectTraining', training.id)
     },
-    getTrainings: function () {
-      this.$axios.post(location.protocol + '//' + location.hostname + ':1234', 'GET_TRAININGS')
-        .then((response) => {
-          this.trainings = response.data
-          this.loading = false
-        })
-        .catch(() => {
-          this.$q.notify({
-            color: 'negative',
-            position: 'top',
-            message: 'Loading failed',
-            icon: 'report_problem'
-          })
-        })
+    getDurationInMinutesAsLabel: function (durationInSeconds) {
+      var minutes = Math.floor(durationInSeconds / 60)
+      var seconds = durationInSeconds % 60
+      return (minutes !== 0 ? minutes + ' min' : '') + (seconds !== 0 ? ' ' + seconds + ' sec' : '')
     }
   }
 }

@@ -6,28 +6,23 @@ const routes = [
     children: [
       {
         path: '',
+        name: 'Start',
         component: () => import('pages/Index.vue')
       },
       {
-        path: '/training/:id',
+        path: '/training/',
         name: 'Training',
         component: () => import('pages/Training.vue')
-      }
-    ]
-  },
-  {
-    path: '/training/:id/in-training',
-    name: 'In Training',
-    component: () => import('layouts/InTrainingLayout.vue'),
-    children: [
+      },
       {
-        path: '',
+        path: '/in-training/',
+        name: 'InTraining',
         component: () => import('pages/InTraining.vue')
       },
       {
-        path: '/training/:id/after-training',
-        name: 'After Training',
-        component: () => import('pages/AfterTraining.vue')
+        path: '/post-training/',
+        name: 'PostTraining',
+        component: () => import('pages/PostTraining.vue')
       }
     ]
   },

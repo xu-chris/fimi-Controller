@@ -1,8 +1,9 @@
 <template>
   <q-page class="q-pa-md">
+
     <q-timeline color="secondary">
       <q-timeline-entry heading tag="h4">
-        {{training.name}} <q-chip color="grey-9" text-color="white" :label="getDurationInMinutesAsLabel(getTotalDuration())" />
+        {{data.name}} <q-chip color="grey-9" text-color="white" :label="getDurationInMinutesAsLabel(getTotalDuration())" />
       </q-timeline-entry>
 
       <q-separator />
@@ -11,7 +12,7 @@
         Exercises in this training
       </q-timeline-entry>
 
-      <q-timeline-entry v-for="n in training.exercises" :key="`sm-${n}`"
+      <q-timeline-entry v-for="n in data.exercises" :key="`sm-${n}`"
         :title="n.name"
         :icon="getIcon(n)"
         :color="getColor(n)"
@@ -63,34 +64,29 @@ const training = {
 }
 
 export default {
-  name: 'PageIndex',
+  name: 'Training',
   data () {
     return {
-      id: 0,
-      training: [],
-      loading: true
+      checkIfTrainingIsActive: true,
+      interval: null
     }
   },
-  created () {
-    this.id = this.$route.params.id
+  computed: {
+    loading: {
+      get () {
+        return this.$store.state.data.loading
+      }
+    },
+    data: {
+      get () {
+        return this.$store.state.data.currentTraining
+      }
+    }
+  },
+  beforeMount () {
+    this.$store.dispatch('data/getCurrentTraining')
   },
   methods: {
-    getTrainingInfo: function () {
-      var message = 'GET_TRAINING\n' + this.id
-      this.$axios.post(location.protocol + '//' + location.hostname + ':1234', message)
-        .then((response) => {
-          this.trainings = response.data
-          this.loading = false
-        })
-        .catch(() => {
-          this.$q.notify({
-            color: 'negative',
-            position: 'top',
-            message: 'Loading failed',
-            icon: 'report_problem'
-          })
-        })
-    },
     getDurationInMinutesAsLabel: function (durationInSeconds) {
       var minutes = Math.floor(durationInSeconds / 60)
       var seconds = durationInSeconds % 60
