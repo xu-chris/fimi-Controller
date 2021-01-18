@@ -5,6 +5,7 @@ export default function () {
     loading: true,
     trainings: [],
     currentTraining: {},
+    trainingResults: {},
     userId: null,
     userData: {}
   }

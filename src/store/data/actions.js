@@ -40,7 +40,7 @@ export async function backButtonClicked (state) {
   sendCommand(message)
 }
 
-export async function getTrainings () {
+export async function getTrainings (state) {
   await axios.post(webSocketUrl, 'GET_TRAININGS')
     .then((response) => {
       this.commit('data/setTrainingsData', response.data)
@@ -56,10 +56,29 @@ export async function getTrainings () {
     })
 }
 
-export async function getCurrentTraining () {
+export async function getCurrentTraining (state) {
   await axios.post(webSocketUrl, 'GET_TRAINING')
     .then((response) => {
       this.commit('data/setCurrentTraining', response.data)
+      this.commit('data/setLoading', false)
+    })
+    .catch(() => {
+      this.$q.notify({
+        color: 'negative',
+        position: 'top',
+        message: 'Loading failed',
+        icon: 'report_problem'
+      })
+    })
+}
+
+export async function getTrainingResults (state) {
+  console.log('Using user id ' + state.getters.getUserId)
+  var message = 'GET_RESULTS\n' + state.getters.getUserId
+  await axios.post(webSocketUrl, message)
+    .then((response) => {
+      console.log(response.data)
+      this.commit('data/setTrainingResults', response.data)
       this.commit('data/setLoading', false)
     })
     .catch(() => {

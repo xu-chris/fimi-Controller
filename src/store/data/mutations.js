@@ -23,6 +23,11 @@ export function setCurrentTraining (state, data) {
   state.currentTraining = data
 }
 
+export function setTrainingResults (state, data) {
+  state.trainingResults = data
+}
+
 export function setUserId (state, data) {
+  console.log('Setting user ID to ' + data)
   state.userId = data
 }
