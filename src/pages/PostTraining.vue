@@ -1,73 +1,50 @@
 <template>
   <q-page class="q-pa-md">
-    User Id: {{this.userId}}
-    <!-- <q-list>
+    <q-list>
       <q-item>
-        <div class="text-h4">Training results for {{trainings[id].name}} <q-chip color="grey-9" text-color="white" :label="trainings[id].duration" /></div>
+        <div class="text-h4">Training results for {{data.trainingName}} <q-chip color="grey-9" text-color="white" :label="getDurationInMinutesAsLabel(data.totalDurationInSeconds)" /></div>
       </q-item>
       <q-separator spaced />
       <q-item-label header>Here's where you have improved</q-item-label>
 
+      <div v-for="n in data.improvements" :key="`sm-${n.name}`">
       <q-item>
 
         <q-item-section avatar>
           <q-icon name="arrow_upward" color="green" />
         </q-item-section>
         <q-item-section>
-          <q-item-label>Better alignment of head and body</q-item-label>
-          <q-item-label caption lines="2">Your head and body are more aligned.</q-item-label>
+          <q-item-label>{{n.name}}</q-item-label>
+          <q-item-label caption lines="2">{{n.explanation}}</q-item-label>
         </q-item-section>
 
       </q-item>
 
-      <q-separator spaced inset="item" />
+      <q-separator v-if="n != data.improvements.slice(-1)[0]" spaced inset="item" />
 
-      <q-item>
-
-        <q-item-section avatar>
-          <q-icon name="arrow_upward" color="green" />
-        </q-item-section>
-
-        <q-item-section>
-          <q-item-label>Knees are not overstretched</q-item-label>
-          <q-item-label caption lines="2">Squatting just up to 90 degrees prevents bending the tendons too much. Good job!</q-item-label>
-        </q-item-section>
-
-      </q-item>
+      </div>
 
       <q-separator spaced />
       <q-item-label header>Things you should watch next time</q-item-label>
 
-      <q-item>
+      <div v-for="n in data.ruleViolations" :key="`sm-${n.name}`">
+        <q-item>
 
-        <q-item-section avatar>
-          <q-icon name="error_outline" color="yellow" />
-        </q-item-section>
+          <q-item-section avatar>
+            <q-icon name="error_outline" color="yellow" />
+          </q-item-section>
 
-        <q-item-section>
-          <q-item-label>Keep your neck neutral</q-item-label>
-          <q-item-label caption lines="2">While training, don't look forward but move your head along your spline. This prevents injuries on your neck muscle.</q-item-label>
-        </q-item-section>
+          <q-item-section>
+            <q-item-label>{{n.name}}</q-item-label>
+            <q-item-label caption lines="2">{{n.explanation}}</q-item-label>
+          </q-item-section>
 
-      </q-item>
+        </q-item>
 
-      <q-separator spaced inset="item" />
+        <q-separator v-if="n != data.ruleViolations.slice(-1)[0]" spaced inset="item" />
 
-      <q-item>
-
-        <q-item-section avatar>
-          <q-icon name="error_outline" color="yellow" />
-        </q-item-section>
-
-        <q-item-section>
-          <q-item-label>Keep your upper and lower arms aligned</q-item-label>
-          <q-item-label caption lines="2">Keeping your arms straight assures the expected training outcome.</q-item-label>
-        </q-item-section>
-
-      </q-item>
-
-      <q-separator spaced inset="item" />
-    </q-list> -->
+      </div>
+    </q-list>
 
     <q-footer bordered class="bg-grey-10 q-pa-sm text-center">
       <div class="row q-gutter-sm">
@@ -127,6 +104,11 @@ export default {
         return
       }
       this.$store.dispatch('data/getTrainingResults')
+    },
+    getDurationInMinutesAsLabel: function (durationInSeconds) {
+      var minutes = Math.floor(durationInSeconds / 60)
+      var seconds = durationInSeconds % 60
+      return (minutes !== 0 ? minutes + ' min' : '') + (seconds !== 0 ? ' ' + seconds + ' sec' : '')
     }
   }
 }
