@@ -8,6 +8,10 @@
 
       <q-separator />
 
+      <q-timeline-entry heading tag="p">
+        {{data.description}}
+      </q-timeline-entry>
+
       <q-timeline-entry heading tag="h6">
         Exercises in this training
       </q-timeline-entry>
@@ -33,36 +37,6 @@
 
 <script>
 
-const training = {
-  name: 'Move your body',
-  durationInSeconds: 60,
-  exercises: [
-    {
-      id: 0,
-      name: 'Squat arm raise',
-      durationInSeconds: 60,
-      type: 'exercise',
-      state: 'done',
-      description: 'Raise your arms until they are lifted horizontally. Squat in the same time.'
-    },
-    {
-      id: 1,
-      name: 'Pause',
-      type: 'pause',
-      state: 'current',
-      durationInSeconds: 10
-    },
-    {
-      id: 2,
-      name: 'Squat arm raise',
-      type: 'exercise',
-      state: 'upcoming',
-      durationInSeconds: 130,
-      description: 'Raise your arms until they are lifted horizontally. Squat in the same time.'
-    }
-  ]
-}
-
 export default {
   name: 'Training',
   data () {
@@ -83,7 +57,7 @@ export default {
       }
     }
   },
-  beforeMount () {
+  created () {
     this.$store.dispatch('data/getCurrentTraining')
   },
   methods: {
@@ -94,7 +68,7 @@ export default {
     },
     getTotalDuration: function () {
       var result = 0
-      training.exercises.forEach(element => {
+      this.data.exercises.forEach(element => {
         result += element.durationInSeconds
       })
       return result
