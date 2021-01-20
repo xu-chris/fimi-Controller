@@ -22,8 +22,8 @@ export async function getCurrentAppState (state) {
     })
 }
 
-export async function getUserId (state) {
-  var message = 'REGISTER_NEW_USER'
+export async function getUserId (state, name) {
+  var message = 'REGISTER_NEW_USER\n' + name
   await axios.post(webSocketUrl, message)
     .then((response) => {
       if (response.statusText === 'OK') {

@@ -1,6 +1,22 @@
 <template>
   <div id="q-app">
     <router-view />
+    <q-dialog v-model="showRegisterNewUser" persistent>
+      <q-card>
+        <q-card-section class="row items-center">
+          <div class="text-h6">Hi! What's your name?</div>
+          <div>When providing a name, you will see a personal message on the screen when your device has been successfully connected.</div>
+        </q-card-section>
+
+        <q-card-section class="row items-center">
+          <q-input filled v-model="name" label="Your name" class="full-width" />
+        </q-card-section>
+
+        <q-card-actions align="around">
+          <q-btn flat label="Continue" color="primary" v-close-popup @click="createUser()" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 <script>
@@ -12,6 +28,12 @@ export default {
     this.logInUser()
   },
   mounted () {
+  },
+  data () {
+    return {
+      showRegisterNewUser: false,
+      name: ''
+    }
   },
   computed: {
     state: {
@@ -54,13 +76,13 @@ export default {
       this.routeBasedOnState()
     },
     createUser: function () {
-      this.$store.dispatch('data/getUserId')
+      this.$store.dispatch('data/getUserId', this.name)
     },
     logInUser: function () {
       if (localStorage.userData != null) {
         this.$store.dispatch('data/logInUser', localStorage.userData)
       } else {
-        this.createUser()
+        this.showRegisterNewUser = true
       }
     },
     getUserData: function () {
