@@ -7,6 +7,6 @@ export default function () {
     currentTraining: {},
     trainingResults: {},
     userId: null,
-    userData: {}
+    userData: null
   }
 }

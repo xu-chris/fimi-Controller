@@ -27,6 +27,10 @@ export function setTrainingResults (state, data) {
   state.trainingResults = data
 }
 
+export function setUserData (state, data) {
+  state.userData = data
+}
+
 export function setUserId (state, data) {
   console.log('Setting user ID to ' + data)
   state.userId = data

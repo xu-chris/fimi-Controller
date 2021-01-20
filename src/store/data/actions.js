@@ -6,7 +6,11 @@ export async function getCurrentAppState (state) {
   var message = 'GET_APP_STATE'
   await axios.post(webSocketUrl, message)
     .then((response) => {
-      this.commit('data/setClientAppState', response.data)
+      if (response.statusText === 'OK') {
+        this.commit('data/setClientAppState', response.data)
+      } else {
+        console.error('Response status is not OK: ' + response)
+      }
     })
     .catch(() => {
       this.$q.notify({
@@ -22,7 +26,32 @@ export async function getUserId (state) {
   var message = 'REGISTER_NEW_USER'
   await axios.post(webSocketUrl, message)
     .then((response) => {
-      this.commit('data/setUserId', response.data)
+      if (response.statusText === 'OK') {
+        this.commit('data/setUserId', response.data)
+      } else {
+        console.error('Response status is not OK: ' + response)
+      }
+    })
+    .catch(() => {
+      this.$q.notify({
+        color: 'negative',
+        position: 'top',
+        message: 'Loading failed',
+        icon: 'report_problem'
+      })
+    })
+}
+
+export async function logInUser (state, value) {
+  var message = 'LOGIN_USER\n' + value
+  console.log('Logging in: ' + value)
+  await axios.post(webSocketUrl, message)
+    .then((response) => {
+      if (response.statusText === 'OK') {
+        this.commit('data/setUserId', response.data)
+      } else {
+        console.error('Response status is not OK: ' + response)
+      }
     })
     .catch(() => {
       this.$q.notify({
@@ -43,7 +72,32 @@ export async function backButtonClicked (state) {
 export async function getTrainings (state) {
   await axios.post(webSocketUrl, 'GET_TRAININGS')
     .then((response) => {
-      this.commit('data/setTrainingsData', response.data)
+      if (response.statusText === 'OK') {
+        this.commit('data/setTrainingsData', response.data)
+      } else {
+        console.error('Response status is not OK: ' + response)
+      }
+      this.commit('data/setLoading', false)
+    })
+    .catch(() => {
+      this.$q.notify({
+        color: 'negative',
+        position: 'top',
+        message: 'Loading failed',
+        icon: 'report_problem'
+      })
+    })
+}
+
+export async function getUserData (state, userId) {
+  var message = 'GET_USER\n' + userId
+  await axios.post(webSocketUrl, message)
+    .then((response) => {
+      if (response.statusText === 'OK') {
+        this.commit('data/setUserData', response.data)
+      } else {
+        console.error('Response status is not OK: ' + response)
+      }
       this.commit('data/setLoading', false)
     })
     .catch(() => {
@@ -59,7 +113,11 @@ export async function getTrainings (state) {
 export async function getCurrentTraining (state) {
   await axios.post(webSocketUrl, 'GET_TRAINING')
     .then((response) => {
-      this.commit('data/setCurrentTraining', response.data)
+      if (response.statusText === 'OK') {
+        this.commit('data/setCurrentTraining', response.data)
+      } else {
+        console.error('Response status is not OK: ' + response)
+      }
       this.commit('data/setLoading', false)
     })
     .catch(() => {
@@ -72,13 +130,17 @@ export async function getCurrentTraining (state) {
     })
 }
 
-export async function getTrainingResults (state) {
-  console.log('Using user id ' + state.getters.getUserId)
-  var message = 'GET_RESULTS\n' + state.getters.getUserId
+export async function getTrainingResults (state, userId) {
+  console.log('Using user id ' + userId)
+  var message = 'GET_RESULTS\n' + userId
   await axios.post(webSocketUrl, message)
     .then((response) => {
       console.log(response.data)
-      this.commit('data/setTrainingResults', response.data)
+      if (response.statusText === 'OK') {
+        this.commit('data/setTrainingResults', response.data)
+      } else {
+        console.error('Response status is not OK: ' + response)
+      }
       this.commit('data/setLoading', false)
     })
     .catch(() => {
@@ -109,6 +171,8 @@ async function sendCommand (message) {
       this.commit('data/setLoading', false)
       if (!response.data) {
         console.warn('Sending data: ' + message + '. Repsonse: ' + response.data)
+      } else {
+        console.error('Response status is not OK: ' + response)
       }
     })
     .catch(() => {

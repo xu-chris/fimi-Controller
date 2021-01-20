@@ -9,12 +9,9 @@ export default {
   name: 'App',
   created () {
     this.interval = setInterval(() => this.getCurrentAppState(), 1000)
-    this.checkOrCreateUserId()
+    this.logInUser()
   },
   mounted () {
-    if (localStorage.userId) {
-      this.$store.commit('data/setUserId', localStorage.userId)
-    }
   },
   computed: {
     state: {
@@ -32,11 +29,23 @@ export default {
       set (value) {
         this.$store.commit('data/setUserId', value)
       }
+    },
+    userData: {
+      get () {
+        return this.$store.state.data.userData
+      },
+      set (value) {
+        this.$store.commit('data/setUserData', value)
+      }
     }
   },
   watch: {
     userId (newUserId) {
       localStorage.userId = this.userId
+      this.getUserData()
+    },
+    userData (newUserData) {
+      localStorage.userData = JSON.stringify(this.userData)
     }
   },
   methods: {
@@ -44,9 +53,21 @@ export default {
       this.$store.dispatch('data/getCurrentAppState')
       this.routeBasedOnState()
     },
-    checkOrCreateUserId: function () {
-      if (this.userId == null && localStorage.userId == null) {
-        this.$store.dispatch('data/getUserId')
+    createUser: function () {
+      this.$store.dispatch('data/getUserId')
+    },
+    logInUser: function () {
+      if (localStorage.userData != null) {
+        this.$store.dispatch('data/logInUser', localStorage.userData)
+      } else {
+        this.createUser()
+      }
+    },
+    getUserData: function () {
+      if (this.userId != null) {
+        this.$store.dispatch('data/getUserData', this.userId)
+      } else {
+        this.logInUser()
       }
     },
     routeBasedOnState: function () {

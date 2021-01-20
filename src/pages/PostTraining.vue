@@ -82,6 +82,11 @@ export default {
       get () {
         return this.$store.state.data.userId
       }
+    },
+    userData: {
+      get () {
+        return localStorage.userData
+      }
     }
   },
   watch: {
@@ -90,10 +95,9 @@ export default {
     }
   },
   beforeMount () {
-    this.$store.commit('data/setLoading', true)
-  },
-  mounted () {
+    this.getUserData()
     this.getTrainingResults()
+    this.$store.commit('data/setLoading', true)
   },
   methods: {
     returnToStart: function () {
@@ -103,7 +107,12 @@ export default {
       if (this.userId == null) {
         return
       }
-      this.$store.dispatch('data/getTrainingResults')
+      this.$store.dispatch('data/getTrainingResults', this.userId)
+    },
+    getUserData: function () {
+      if (this.userId != null) {
+        this.$store.dispatch('data/getUserData', this.userId)
+      }
     },
     getDurationInMinutesAsLabel: function (durationInSeconds) {
       var minutes = Math.floor(durationInSeconds / 60)
