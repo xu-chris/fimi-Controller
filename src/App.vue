@@ -105,6 +105,7 @@ export default {
           break
         case 'IN_TRAINING':
           pageName = 'InTraining'
+          this.$store.dispatch('data/getCurrentTraining')
           this.$store.commit('data/setBackButtonAvailable', false)
           break
         case 'POST_TRAINING':

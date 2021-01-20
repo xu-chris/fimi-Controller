@@ -5,23 +5,25 @@
         <div class="text-h4">Training results for {{data.trainingName}} <q-chip color="grey-9" text-color="white" :label="getDurationInMinutesAsLabel(data.totalDurationInSeconds)" /></div>
       </q-item>
       <q-separator spaced />
-      <q-item-label header>Here's where you have improved</q-item-label>
+      <div v-if="data.improvements.length > 0">
+        <q-item-label header>Here's where you have improved</q-item-label>
 
-      <div v-for="n in data.improvements" :key="`sm-${n.name}`">
-      <q-item>
+        <div v-for="n in data.improvements" :key="`sm-${n.name}`">
+        <q-item>
 
-        <q-item-section avatar>
-          <q-icon name="arrow_upward" color="green" />
-        </q-item-section>
-        <q-item-section>
-          <q-item-label>{{n.name}}</q-item-label>
-          <q-item-label caption lines="2">{{n.explanation}}</q-item-label>
-        </q-item-section>
+          <q-item-section avatar>
+            <q-icon name="arrow_upward" color="green" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>{{n.name}}</q-item-label>
+            <q-item-label caption lines="2">{{n.explanation}}</q-item-label>
+          </q-item-section>
 
-      </q-item>
+        </q-item>
 
-      <q-separator v-if="n != data.improvements.slice(-1)[0]" spaced inset="item" />
+        <q-separator v-if="n != data.improvements.slice(-1)[0]" spaced inset="item" />
 
+        </div>
       </div>
 
       <q-separator spaced />

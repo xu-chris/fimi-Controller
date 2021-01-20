@@ -48,18 +48,12 @@ export default {
   computed: {
     data: {
       get () {
-        return this.$store.dispatch('data/getCurrentTraining')
+        return this.$store.state.data.currentTraining
       }
     }
   },
-  created () {
-    this.interval = setInterval(this.getCurrentTraining(), 1000)
-  },
   beforeMount () {
     this.getCurrentTraining()
-  },
-  beforeRouteLeave (to, from, next) {
-    clearInterval(this.interval)
   },
   methods: {
     getCurrentTraining: function () {
