@@ -4,8 +4,8 @@
       <q-item>
         <div class="text-h4">Training results for {{data.trainingName}} <q-chip color="grey-9" text-color="white" :label="getDurationInMinutesAsLabel(data.totalDurationInSeconds)" /></div>
       </q-item>
-      <q-separator spaced />
-      <div v-if="data.improvements.length > 0">
+      <div v-if="data.improvements != undefined && data.improvements.length > 0">
+        <q-separator spaced />
         <q-item-label header>Here's where you have improved</q-item-label>
 
         <div v-for="n in data.improvements" :key="`sm-${n.name}`">
