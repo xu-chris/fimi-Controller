@@ -1,8 +1,9 @@
 import axios from 'axios'
 
-const webSocketUrl = location.protocol + '//' + location.hostname + ':1234'
+const webSocketUrl = location.protocol + '//' + location.hostname + ':80'
 
 export async function getCurrentAppState (state) {
+  console.log('Requesting current app state')
   var message = 'GET_APP_STATE'
   await axios.post(webSocketUrl, message)
     .then((response) => {
@@ -23,6 +24,7 @@ export async function getCurrentAppState (state) {
 }
 
 export async function getUserId (state, name) {
+  console.log('Registering new user')
   var message = 'REGISTER_NEW_USER\n' + name
   await axios.post(webSocketUrl, message)
     .then((response) => {
@@ -44,10 +46,12 @@ export async function getUserId (state, name) {
 
 export async function logInUser (state, value) {
   var message = 'LOGIN_USER\n' + value
-  console.log('Logging in: ' + value)
+  console.log('Logging in:')
+  console.log(value)
   await axios.post(webSocketUrl, message)
     .then((response) => {
       if (response.statusText === 'OK') {
+        console.log('Logged in successfully. User Id: ' + response.data)
         this.commit('data/setUserId', response.data)
       } else {
         console.error('Response status is not OK: ' + response)
@@ -64,12 +68,14 @@ export async function logInUser (state, value) {
 }
 
 export async function backButtonClicked (state) {
+  console.log('Back button has been clicked. Unselecting training...')
   var message = 'UNSELECT_TRAINING'
   this.commit('data/setLoading', true)
   sendCommand(message)
 }
 
 export async function getTrainings (state) {
+  console.log('Requesting trainings')
   await axios.post(webSocketUrl, 'GET_TRAININGS')
     .then((response) => {
       if (response.statusText === 'OK') {
@@ -91,6 +97,7 @@ export async function getTrainings (state) {
 
 export async function getUserData (state, userId) {
   var message = 'GET_USER\n' + userId
+  console.log('Requesting user data for user with Id ' + userId)
   await axios.post(webSocketUrl, message)
     .then((response) => {
       if (response.statusText === 'OK') {
@@ -111,6 +118,7 @@ export async function getUserData (state, userId) {
 }
 
 export async function getCurrentTraining (state) {
+  console.log('Getting current training data')
   await axios.post(webSocketUrl, 'GET_TRAINING')
     .then((response) => {
       if (response.statusText === 'OK') {
@@ -131,7 +139,7 @@ export async function getCurrentTraining (state) {
 }
 
 export async function getTrainingResults (state, userId) {
-  console.log('Using user id ' + userId)
+  console.log('Get training results for user with user id ' + userId)
   var message = 'GET_RESULTS\n' + userId
   await axios.post(webSocketUrl, message)
     .then((response) => {
@@ -154,12 +162,14 @@ export async function getTrainingResults (state, userId) {
 }
 
 export function selectTraining (state, training) {
+  console.log('Selecting training: ' + training)
   var message = 'SELECT_TRAINING\n' + training
   this.commit('data/setLoading', true)
   sendCommand(message)
 }
 
 export function cancelTraining (state, training) {
+  console.log('Canceling training...')
   var message = 'CANCEL_TRAINING\n' + training
   this.commit('data/setLoading', true)
   sendCommand(message)
