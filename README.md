@@ -1,6 +1,6 @@
-# fimi Controller (fimi-controller)
+# fimi Controller
 
-Check out the [documentation of fimi](https://creichel.github.io/FiMi-Fitness-Smart-Mirror/) for full information about the whole system.
+**Check out the [documentation of fimi](https://creichel.github.io/fimi-Documentation/) for full information about the whole system.**
 
 fimi is an application which tries to resemble a coach while you doing workout by analyzing your posture and giving you feedback about what you should watch more often. To run it, you need a **webcam**, a big screen and your smartphone (and some room space). You control the big screen with your smartphone by simply scanning the displayed QR code (being in the same wifi net is necessary).
 
@@ -14,18 +14,19 @@ This is the **controller** software of the fimi fitness mirror application.
 - Syncing periodically it's state and adapts to it
 - Storing the user's training profile on `LocalStorage` after the training has been aborted or finished
 
-Build with 
+## Used technology
 - [Vue.js](http://vuejs.org)
 - [Quasar](https://quasar.dev)
 - [Axios](https://github.com/axios/axios)
 - [VueX](https://vuex.vuejs.org)
 
-## Install the dependencies
+## Install it
 ```bash
 yarn
 ```
 
-### Start the app in development mode (hot-code reloading, error reporting, etc.)
+## Start it
+### Development mode (hot-code reloading, error reporting, etc.)
 ```bash
 quasar dev
 ```
@@ -36,10 +37,10 @@ Keep in mind that you have to start as well the [fimi Client application](https:
 yarn run lint
 ```
 
-### Build the app for production
+## Build it
 ```bash
 quasar build
 ```
 
-### Customize the configuration
+### Adjust it
 See [Configuring quasar.conf.js](https://quasar.dev/quasar-cli/quasar-conf-js).
