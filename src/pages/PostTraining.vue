@@ -94,7 +94,12 @@ export default {
   watch: {
     userId (newUserId) {
       this.getTrainingResults()
+      this.getUserData()
     }
+  },
+  created () {
+    this.getTrainingResults()
+    this.getUserData()
   },
   beforeMount () {
     this.getUserData()
