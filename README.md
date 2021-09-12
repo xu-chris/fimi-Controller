@@ -1,6 +1,6 @@
 # fimi Controller
 
-**Check out the [documentation of fimi](https://creichel.github.io/fimi-Documentation/) for full information about the whole system.**
+**Check out the [documentation of fimi](https://xu-chris.github.io/fimi-Documentation/) for full information about the whole system.**
 
 fimi is an application which tries to resemble a coach while you doing workout by analyzing your posture and giving you feedback about what you should watch more often. To run it, you need a **webcam**, a big screen and your smartphone (and some room space). You control the big screen with your smartphone by simply scanning the displayed QR code (being in the same wifi net is necessary).
 
