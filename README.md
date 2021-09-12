@@ -30,7 +30,7 @@ yarn
 ```bash
 quasar dev
 ```
-Keep in mind that you have to start as well the [fimi Client application](https://github.com/creichel/fimi-Client) since the controller app is fetching the data from it's host.
+Keep in mind that you have to start as well the [fimi Client application](https://github.com/xu-chris/fimi-Client) since the controller app is fetching the data from it's host.
 
 ### Lint the files
 ```bash
